@@ -70,7 +70,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Game, gameGridSize } from "../types/game";
+import { Game, gameGridSize } from "../types/Game";
 
 export default Vue.extend({
   // eslint-disable-next-line vue/multi-word-component-names

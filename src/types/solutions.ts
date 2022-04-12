@@ -1,4 +1,4 @@
-import { gameGridSize, Box } from "./game";
+import { gameGridSize, Box } from "./Game";
 
 export class Solution {
   pattern: Pattern;
