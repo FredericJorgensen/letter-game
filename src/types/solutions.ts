@@ -6,8 +6,9 @@ export class Solution {
   yShift: number;
 
   constructor() {
-    this.pattern =
-      solutionPatterns[Math.floor(Math.random() * solutionPatterns.length)];
+    const day = new Date().getDay();
+    const index = day % solutionPatterns.length;
+    this.pattern = solutionPatterns[index];
     this.xShift = Math.floor(Math.random() * (gameGridSize - 3));
     this.yShift = Math.floor(Math.random() * (gameGridSize - 5));
   }

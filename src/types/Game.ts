@@ -22,19 +22,34 @@ export class Box {
 export class Game {
     board: Box[];
     private solution: Solution;
+    score: number;
+    playerName: string;
     constructor() {
         this.board = [];
         for (let i = 0; i < gameGridSize ** 2; i++) {
             this.board.push(new Box(i));
         }
         this.solution = new Solution();
+        this.score = 0;
+        this.playerName = "";
     }
     //TODO : remove after debugging
+    saveGame() {
+        return {
+            playerName: this.playerName,
+            score: this.score,
+            letter: this.solution.pattern.name,
+        };
+    }
+    initPlayerName(playerName: string) {
+        this.playerName = playerName;
+    }
     getSolution() {
         return this.solution;
     }
-    getScore() {
-        return this.board.filter((box) => box.clicked).length;
+    setScore() {
+        this.score = this.board.filter((box) => box.clicked).length;
+        return this.score;
     }
 
     getRow(row: number) {

@@ -1,6 +1,6 @@
 <template>
   <v-container class="d-flex flex-column align-center justify-space-between">
-    <v-card-title class="my-5"> Score: {{ game.getScore() }} </v-card-title>
+    <v-card-title class="my-5"> Score: {{ game.score }} </v-card-title>
     <v-card class="pa-3 my-5">
       <v-row v-for="rowIndex in gameGridSize" :key="rowIndex" class="pa-0 ma-0">
         <v-col
@@ -15,7 +15,12 @@
             :width="boxSideLength"
             :color="game.getBoxColor(box)"
             :v-ripple="game.isBoxClickable(box)"
-            @click="box.click()"
+            @click="
+              () => {
+                box.click();
+                game.setScore();
+              }
+            "
             :disabled="!game.isBoxClickable(box)"
             class="ma-1"
           >
@@ -33,7 +38,7 @@
           The letter
           <b>{{ this.game.getSolution().pattern.name.toUpperCase() }}</b>
           was the right solution! Your final score is
-          <b> {{ this.game.getScore() }}</b
+          <b> {{ this.game.score }}</b
           >.
         </v-card-text>
         <v-card-actions class="justify-end">
@@ -71,6 +76,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Game, gameGridSize } from "../types/Game";
+import { useFirestore } from "../firebase";
 
 export default Vue.extend({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -78,6 +84,7 @@ export default Vue.extend({
   data: () => ({
     game: new Game(),
     dialog: false,
+    playerName: "",
   }),
 
   methods: {
@@ -87,9 +94,15 @@ export default Vue.extend({
     },
   },
 
+  created() {
+    this.game.initPlayerName("Peter");
+  },
+
   watch: {
     gameIsSolved: function () {
       if (this.gameIsSolved) {
+        const { addGame } = useFirestore();
+        addGame(this.game.saveGame());
         this.dialog = true;
       }
     },
