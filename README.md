@@ -1,5 +1,8 @@
 # guess-letter-game
 
+## Play
+[Play the game](https://find-letter.netlify.app/#/)
+
 ## Project setup
 ```
 yarn install
